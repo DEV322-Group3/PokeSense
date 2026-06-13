@@ -16,7 +16,7 @@ data class PokemonDetailResponse(
 // PokemonSprites = sprite image section from PokeAPI
 data class PokemonSprites(
     @SerializedName("front_default")                     // JSON says front_default, Kotlin uses frontDefault
-    val frontDefault: String?                            // frontDefault = front sprite image URL
+    val frontDefault: String?                                   // frontDefault = front sprite image URL
 )
 
 // PokemonTypeEntry = one item inside the types list
