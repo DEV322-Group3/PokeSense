@@ -1,6 +1,6 @@
 package com.example.pokesense.data.repository
 
-import com.example.pokesense.data.model.PokemonDetailResponse // Pokemon detail data shape
+import com.example.pokesense.data.remote.dto.PokemonDetailResponse // Pokemon detail data shape
 
 // interface (to be expanded on in the impl)
 interface PokemonRepository {

@@ -1,4 +1,4 @@
-package com.example.pokesense.data.model
+package com.example.pokesense.data.remote.dto
 
 // TypeResponse = Kotlin shape for /type/{typeName} JSON
 // We only keep the Pokemon list part

@@ -1,4 +1,4 @@
-package com.example.pokesense.data.model
+package com.example.pokesense.data.remote.dto
 
 import com.google.gson.annotations.SerializedName        // Lets Kotlin read JSON names with underscores
 

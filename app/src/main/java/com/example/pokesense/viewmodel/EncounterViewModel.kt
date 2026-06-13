@@ -2,7 +2,7 @@ package com.example.pokesense.viewmodel
 
 import androidx.lifecycle.ViewModel                                 // ViewModel = holds screen logic/state
 import androidx.lifecycle.viewModelScope                            // viewModelScope = coroutine owned by ViewModel (remember! don't use global, read the previous chapter!)
-import com.example.pokesense.data.model.PokemonDetailResponse       // Pokemon detail data from repository
+import com.example.pokesense.data.remote.dto.PokemonDetailResponse  // Pokemon detail data from repository
 import com.example.pokesense.data.repository.PokemonRepository      // Repository promise
 import com.example.pokesense.data.repository.PokemonRepositoryImpl  // Real repository function logic
 

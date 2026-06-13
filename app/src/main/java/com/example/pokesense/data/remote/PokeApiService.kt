@@ -1,7 +1,7 @@
-package com.example.pokesense.data.api
+package com.example.pokesense.data.remote
 
-import com.example.pokesense.data.model.PokemonDetailResponse   // Kotlin shape for /pokemon/{name} JSON
-import com.example.pokesense.data.model.TypeResponse            // Kotlin shape for /type/{typeName} JSON, only the Pokemon list part
+import com.example.pokesense.data.remote.dto.PokemonDetailResponse   // Kotlin shape for /pokemon/{name} JSON
+import com.example.pokesense.data.remote.dto.TypeResponse            // Kotlin shape for /type/{typeName} JSON, only the Pokemon list part
 
 import retrofit2.Retrofit                                       // fetch-like API caller
 import retrofit2.converter.gson.GsonConverterFactory            // Turns JSON into Kotlin data classes

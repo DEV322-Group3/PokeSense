@@ -1,8 +1,8 @@
 package com.example.pokesense.data.repository
 
-import com.example.pokesense.data.api.PokeApiClient           // PokeAPI caller
-import com.example.pokesense.data.api.PokeApiService          // API call rules
-import com.example.pokesense.data.model.PokemonDetailResponse // Pokemon detail data shape
+import com.example.pokesense.data.remote.PokeApiClient           // PokeAPI caller
+import com.example.pokesense.data.remote.PokeApiService          // API call rules
+import com.example.pokesense.data.remote.dto.PokemonDetailResponse // Pokemon detail data shape
 import kotlinx.coroutines.Dispatchers                         // IO thread helper
 import kotlinx.coroutines.withContext                         // Switch work to IO thread
 
