@@ -45,6 +45,15 @@ class EncounterViewModel : ViewModel() {
 
                 // =============================================================
                 // ================== MODIFY LATER !! ==========================
+                // TODO later:
+                // 1. Call PokemonSensorDataSource to get the Pokemon type string
+                // 2. Replace hardcoded "fire" with that returned type string
+                //
+                // Future version:
+                // val typeName = sensorDataSource.getPokemonType()
+                // val result = repository.getRandomPokemonByType(typeName)
+                //
+                // Current version:
                 val result = repository.getRandomPokemonByType("fire") // Hardcoded type for now (CHANGE LATER AFTER SENSOR STUFF IS DONE!!!)
                 // =============================================================
                 // =============================================================
