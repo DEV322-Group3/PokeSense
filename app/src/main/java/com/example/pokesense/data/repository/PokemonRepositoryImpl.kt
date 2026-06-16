@@ -1,25 +1,24 @@
 package com.example.pokesense.data.repository
 
-import com.example.pokesense.data.remote.PokeApiClient           // PokeAPI caller
-import com.example.pokesense.data.remote.PokeApiService          // API call rules
-import com.example.pokesense.data.remote.dto.PokemonDetailResponse // Pokemon detail data shape
-import kotlinx.coroutines.Dispatchers                         // IO thread helper
-import kotlinx.coroutines.withContext                         // Switch work to IO thread
+import com.example.pokesense.data.remote.PokemonRemoteDataSource
+import com.example.pokesense.data.remote.dto.PokemonDetailResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-// PokemonRepositoryImpl = real worker that calls PokeAPI
+// PokemonRepositoryImpl = real worker that uses RemoteDataSource
 class PokemonRepositoryImpl(
-    private val api: PokeApiService = PokeApiClient.api        // api = actual PokeAPI caller
+    private val remoteDataSource: PokemonRemoteDataSource = PokemonRemoteDataSource()
 ) : PokemonRepository {
 
     // getRandomPokemonByType = get type list, pick random Pokemon, then get full detail
     override suspend fun getRandomPokemonByType(typeName: String): PokemonDetailResponse {
         return withContext(Dispatchers.IO) {
 
-            val typeResponse = api.getPokemonByType(typeName)                   // Call /type/fire
+            val typeResponse = remoteDataSource.fetchPokemonByType(typeName)
 
-            val randomPokemonName = typeResponse.pokemon.random().pokemon.name  // Pick random Pokemon name
+            val randomPokemonName = typeResponse.pokemon.random().pokemon.name
 
-            api.getPokemonDetail(randomPokemonName)                             // Call /pokemon/{name}
+            remoteDataSource.fetchPokemonDetail(randomPokemonName)
         }
     }
 }
