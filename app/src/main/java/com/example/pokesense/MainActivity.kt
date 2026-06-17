@@ -18,6 +18,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel     // viewModel = gets EncounterViewModel
 import com.example.pokesense.ui.EncounterScreen           // Encounter screen UI
 import com.example.pokesense.ui.HomeScreen                // Home screen UI
+//import com.example.pokesense.ui.ResultScreen              // Result screen UI
+//import com.example.pokesense.ui.CaughtListScreen          // CaughtList screen UI
+//import com.example.pokesense.ui.PokemonDetailScreen       // PokémonDetail screen UI
 import com.example.pokesense.ui.theme.PokeSenseTheme
 import com.example.pokesense.viewmodel.EncounterViewModel // Encounter screen logic/state
 
@@ -44,21 +47,62 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.padding(innerPadding),
                             onStartEncounter = {
                                 currentScreen = "encounter"             // Move to encounter screen
-                                encounterViewModel.startEncounter()     // Start Pokemon encounter
+                                encounterViewModel.startEncounter()     // Start Pokémon encounter
+                            },
+                            onCaughtList = {
+                                currentScreen = "caughtlist"            // Move to caught list screen
+//                                caughtListViewModel.viewList()     // Show list of caught Pokémon
                             }
                         )
 
                     } else {
 
-                        // EncounterScreen = shows loading, error, or Pokemon result
+                        // EncounterScreen = shows loading, error, or Pokémon result
                         EncounterScreen(
                             modifier = Modifier.padding(innerPadding),
                             viewModel = encounterViewModel,
                             onGoHome = {
                                 currentScreen = "home"                  // Go back to home screen
+                            },
+                            onResult = {
+                                currentScreen = "result"            // Show catch result
                             }
                         )
                     }
+//                    } else {
+//
+//                        // ResultScreen = shows error or Pokémon result
+//                        ResultScreen(
+//                            modifier = Modifier.padding(innerPadding),
+//                            onStartEncounter = {
+//                                currentScreen = "encounter"             // Move to encounter screen
+//                                encounterViewModel.startEncounter()     // Start Pokémon encounter
+//                            },
+//                            onGoHome = {
+//                            currentScreen = "home"                  // Go back to home screen
+//                        }
+//                    )
+//                    } else {
+//
+//                    // CaughtListScreen = shows list of caught Pokémon
+//                        CaughtListScreen(
+//                        modifier = Modifier.padding(innerPadding),
+//                        viewModel = caughtListViewModel,
+//                        onGoHome = {
+//                            currentScreen = "home"                  // Go back to home screen
+//                        }
+//                    )
+//                } else {
+//
+//                    // PokemonDetailScreen = shows Pokémon details
+//                    PokemonDetailScreen(
+//                        modifier = Modifier.padding(innerPadding),
+//                        viewModel = pokemonDetailViewModel,
+//                        onGoHome = {
+//                            currentScreen = "home"                  // Go back to home screen
+//                        }
+//                    )
+//                }
                 }
             }
         }

@@ -18,59 +18,59 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.pokesense.viewmodel.EncounterViewModel
 
-// EncounterScreen = shows loading, error, or Pokemon result
+// EncounterScreen = shows loading, error, or Pokémon result
 @Composable
-fun EncounterScreen(
+fun CaughtListScreen(
     modifier: Modifier = Modifier,
-    viewModel: EncounterViewModel,
+    viewModel: EncounterViewModel, // CaughtListViewModel
     onGoHome: () -> Unit,
     onResult: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     val pokemon = uiState.pokemon
-    val errorMessage = uiState.errorMessage
+//    val errorMessage = uiState.errorMessage
 
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (uiState.isLoading) {
-            Text("Looking for Pokemon...",
-                Modifier.padding(40.dp),
-                fontSize = 25.sp
-            )
-        }
-        else if (errorMessage != null) {
-            Text(errorMessage,
-                Modifier.padding(40.dp),
-                fontSize = 25.sp
-            )
-        }
-        else if (pokemon != null) {
-            Text("A wild ${pokemon.name} appeared!",
-                Modifier.padding(40.dp),
-                fontSize = 25.sp
-            )
-
+//        if (uiState.isLoading) {
+//            Text("Looking for Pokemon...",
+//                Modifier.padding(40.dp),
+//                fontSize = 25.sp
+//            )
+//        }
+//        else if (errorMessage != null) {
+//            Text(errorMessage,
+//                Modifier.padding(40.dp),
+//                fontSize = 25.sp
+//            )
+//        }
+//        else if (pokemon != null) {
+//            Text("A wild ${pokemon.name} appeared!",
+//                Modifier.padding(40.dp),
+//                fontSize = 25.sp
+//            )
+//
             AsyncImage(
-                model = pokemon.sprites.frontDefault,
-                contentDescription = pokemon.name,
+                model = pokemon?.sprites?.frontDefault,
+                contentDescription = pokemon?.name,
                 Modifier.size(200.dp)
                     .padding (30.dp)
             )
-        }
-        else {
-            Text("No encounter started",
-                Modifier.padding(40.dp),
-                fontSize = 22.sp
-            )
-        }
+//        }
+//        else {
+//            Text("No encounter started",
+//                Modifier.padding(40.dp),
+//                fontSize = 22.sp
+//            )
+//        }
         Row(
             modifier = modifier.padding(),
             horizontalArrangement = Arrangement.Center
-            ) {
+        ) {
             Button(
                 onClick = onResult,
                 Modifier.padding(30.dp)
