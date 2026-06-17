@@ -3,7 +3,7 @@ package com.example.pokesense.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+//import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -15,10 +15,10 @@ import androidx.compose.ui.unit.sp
 
 // HomeScreen = first screen user sees
 @Composable
-fun HomeScreen(
+fun ResultScreen(
     modifier: Modifier = Modifier,
-    onStartEncounter: () -> Unit,
-    onCaughtList: () -> Unit
+    onGoHome: () -> Unit,
+    onStartEncounter: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -36,16 +36,16 @@ fun HomeScreen(
             Modifier.padding(10.dp)
         ) {
             Text(
-                text = "Initiate Encounter",
+                text = "New Encounter",
                 fontSize = 25.sp
             )
         }
         Button(
-            onClick = onCaughtList, //loadCaughtPokemon()
+            onClick = onGoHome,
             Modifier.padding(10.dp)
         ) {
             Text(
-                text = "Caught Pokemon",
+                text = "Return Home",
                 fontSize = 25.sp
             )
         }
