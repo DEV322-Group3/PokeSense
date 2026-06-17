@@ -33,7 +33,6 @@ fun HomeScreen(
         Button(
             onClick = onStartEncounter,
             Modifier.padding(10.dp)
-
         ) {
             Text(
                 text = "Initiate Encounter",
