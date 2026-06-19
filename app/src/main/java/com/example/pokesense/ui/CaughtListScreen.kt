@@ -18,71 +18,35 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.pokesense.viewmodel.EncounterViewModel
 
-// EncounterScreen = shows loading, error, or Pokgiémon result
+
 @Composable
 fun CaughtListScreen(
     modifier: Modifier = Modifier,
-    viewModel: EncounterViewModel, // CaughtListViewModel
-    onGoHome: () -> Unit,
-    onResult: () -> Unit
-) {
-    val uiState by viewModel.uiState.collectAsState()
+    onGoHome: () -> Unit
+)
 
-    val pokemon = uiState.pokemon
-//    val errorMessage = uiState.errorMessage
 
+
+{
+    Text( // Screen title
+        text = "This is the Caught List screen",
+        Modifier.padding(20.dp),
+        fontSize = 44.sp
+    )
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        if (uiState.isLoading) {
-//            Text("Looking for Pokemon...",
-//                Modifier.padding(40.dp),
-//                fontSize = 25.sp
-//            )
-//        }
-//        else if (errorMessage != null) {
-//            Text(errorMessage,
-//                Modifier.padding(40.dp),
-//                fontSize = 25.sp
-//            )
-//        }
-//        else if (pokemon != null) {
-//            Text("A wild ${pokemon.name} appeared!",
-//                Modifier.padding(40.dp),
-//                fontSize = 25.sp
-//            )
-//
-            AsyncImage(
-                model = pokemon?.sprites?.frontDefault,
-                contentDescription = pokemon?.name,
-                Modifier.size(200.dp)
-                    .padding (30.dp)
-            )
-//        }
-//        else {
-//            Text("No encounter started",
-//                Modifier.padding(40.dp),
-//                fontSize = 22.sp
-//            )
-//        }
         Row(
             modifier = modifier.padding(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Button(
-                onClick = onResult,
-                Modifier.padding(30.dp)
-            ) {
-                Text("Catch",
-                    fontSize = 25.sp)
-            }
-            Button(
+            Button( // Home button
                 onClick = onGoHome,
                 Modifier.padding(30.dp)
             ) {
-                Text("Flee",
+                Text("Go Home",
                     fontSize = 25.sp)
             }
         }

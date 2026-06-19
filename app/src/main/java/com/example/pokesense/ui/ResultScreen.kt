@@ -13,35 +13,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// HomeScreen = first screen user sees
+
 @Composable
 fun ResultScreen(
     modifier: Modifier = Modifier,
-    onGoHome: () -> Unit,
-    onStartEncounter: () -> Unit
-) {
+    onGoHome: () -> Unit
+)
+
+
+{ // Screen formatting
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "PokeSense",
+            text = "This is the results screen",
             Modifier.padding(20.dp),
             fontSize = 44.sp
         )
 
         Button(
-            onClick = onStartEncounter,
-            Modifier.padding(10.dp)
-        ) {
-            Text(
-                text = "New Encounter",
-                fontSize = 25.sp
-            )
-        }
-        Button(
-            onClick = onGoHome,
+            onClick = onGoHome,// Home button
             Modifier.padding(10.dp)
         ) {
             Text(
