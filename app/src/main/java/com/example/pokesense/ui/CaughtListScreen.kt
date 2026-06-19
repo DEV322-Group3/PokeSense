@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.pokesense.viewmodel.EncounterViewModel
 
-// EncounterScreen = shows loading, error, or Pokémon result
+// EncounterScreen = shows loading, error, or Pokgiémon result
 @Composable
 fun CaughtListScreen(
     modifier: Modifier = Modifier,
