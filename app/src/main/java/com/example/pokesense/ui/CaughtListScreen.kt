@@ -28,16 +28,17 @@ fun CaughtListScreen(
 
 
 {
-    Text( // Screen title
-        text = "This is the Caught List screen",
-        Modifier.padding(20.dp),
-        fontSize = 44.sp
-    )
+
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text( // Screen title
+            text = "This is the Caught List screen",
+            Modifier.padding(20.dp),
+            fontSize = 44.sp
+        )
         Row(
             modifier = modifier.padding(),
             horizontalArrangement = Arrangement.Center
