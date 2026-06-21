@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.pokesense.viewmodel.EncounterViewModel
 
+import androidx.compose.runtime.LaunchedEffect          // LaunchedEffect = reacts when catch result changes
+
 // EncounterScreen = shows loading, error, or Pokemon result
 @Composable
 fun EncounterScreen(
@@ -31,6 +33,13 @@ fun EncounterScreen(
     val pokemon = uiState.pokemon
     val errorMessage = uiState.errorMessage
 
+    // Open ResultScreen after catch result is ready
+    LaunchedEffect(uiState.catchResult) {
+        if (uiState.catchResult != null) {
+            onResult()
+        }
+    }
+
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -42,12 +51,22 @@ fun EncounterScreen(
                 fontSize = 25.sp
             )
         }
+
+        else if (uiState.isCatching) {
+            Text(
+                "Trying to catch Pokemon...",
+                Modifier.padding(40.dp),
+                fontSize = 25.sp
+            )
+        }
+
         else if (errorMessage != null) {
             Text(errorMessage,
                 Modifier.padding(40.dp),
                 fontSize = 25.sp
             )
         }
+
         else if (pokemon != null) {
             Text("A wild ${pokemon.name} appeared!",
                 Modifier.padding(40.dp),
@@ -72,11 +91,16 @@ fun EncounterScreen(
             horizontalArrangement = Arrangement.Center
             ) {
             Button(
-                onClick = onResult,
-                Modifier.padding(30.dp)
+                onClick = {
+                    viewModel.catchPokemon()
+                },
+                modifier = Modifier.padding(30.dp),
+                enabled = pokemon != null && !uiState.isCatching
             ) {
-                Text("Catch",
-                    fontSize = 25.sp)
+                Text(
+                    "Catch",
+                    fontSize = 25.sp
+                )
             }
             Button(
                 onClick = onGoHome,
