@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp) // Turns on KSP here so Room can read @Entity, @Dao, @Insert and generate database code
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -53,14 +53,10 @@ dependencies {
     // Coil -> to loads Pokemon sprite image from URL (similar to html <img src={} />)
     implementation("io.coil-kt:coil-compose:2.7.0")
 
-    // Room basic database library
-    implementation(libs.androidx.room.runtime)
-
-    // Room Kotlin + Flow support
-    implementation(libs.androidx.room.ktx)
-
-    // Lets Room generate code
-    ksp(libs.androidx.room.compiler)
+    // Room -> local database
+    implementation("androidx.room:room-runtime: 2.7.1")
+    implementation("androidx.room:room-ktx:2.7.1")
+    ksp("androidx.room:room-compiler:2.7.1")
 
     //-----------------------------------------------------------------------
     implementation(libs.androidx.core.ktx)

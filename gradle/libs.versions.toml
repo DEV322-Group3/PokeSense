@@ -9,11 +9,6 @@ activityCompose = "1.13.0"
 kotlin = "2.2.10"
 composeBom = "2026.02.01"
 
-# Room library ver
-room = "2.8.4"
-# code generator ver Room needs
-ksp = "2.3.7"
-
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -30,19 +25,7 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 
-# Basic Room library
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-
-# Kotlin Flow support for Room and other extension stuff
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-
-# Room code generator
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
-# Creates a shortcut name "ksp" plugin and uses the 'ksp' version above.
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
