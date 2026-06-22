@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+
 import androidx.compose.runtime.getValue                  // getValue = needed for "by"
-import androidx.compose.runtime.mutableStateOf           // mutableStateOf = simple screen state
-import androidx.compose.runtime.remember                 // remember = keeps screen state
-import androidx.compose.runtime.setValue                  // setValue = needed for "by"
+//import androidx.compose.runtime.mutableStateOf           // mutableStateOf = simple screen state
+//import androidx.compose.runtime.remember                 // remember = keeps screen state
+//import androidx.compose.runtime.setValue                  // setValue = needed for "by"
+import androidx.compose.runtime.collectAsState              // collectAsState = lets MainActivity read ViewModel state
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel     // viewModel = gets EncounterViewModel
@@ -53,25 +56,27 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             PokeSenseTheme {
-                // currentScreen = decides which screen is showing
-                var currentScreen by remember { mutableStateOf("home") }
+//                // currentScreen = decides which screen is showing    // Dont use this, UI will get destroy on rotate
+//                var currentScreen by remember { mutableStateOf("home") }
 
                 // encounterViewModel = holds encounter state and starts API call
                 val encounterViewModel: EncounterViewModel = viewModel(
                     factory = encounterViewModelFactory
                 )
 
+                // uiState = screen state from EncounterViewModel
+                val uiState by encounterViewModel.uiState.collectAsState()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    when (currentScreen) {
+                    when (uiState.currentScreen) {
                         "home" -> {
                             HomeScreen(
                                 modifier = Modifier.padding(innerPadding),
                                 onStartEncounter = {
-                                    currentScreen = "encounter"
                                     encounterViewModel.startEncounter()
                                 },
                                 onCaughtList = {
-                                    currentScreen = "caughtlist"
+                                    encounterViewModel.goToCaughtList()
                                 }
                             )
                         }
@@ -80,10 +85,10 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.padding(innerPadding),
                                 viewModel = encounterViewModel,
                                 onGoHome = {
-                                    currentScreen = "home"
+                                    encounterViewModel.goHome()
                                 },
                                 onResult = {
-                                    currentScreen = "result"
+                                    encounterViewModel.goToResult()
                                 }
                             )
                         }
@@ -91,18 +96,19 @@ class MainActivity : ComponentActivity() {
                             CaughtListScreen(
                                 modifier = Modifier.padding(innerPadding),
                                 onGoHome = {
-                                    currentScreen = "home"
+                                    encounterViewModel.goHome()
                                 }
                             )
                         }
                         "result" -> {
                             ResultScreen(
                                 modifier = Modifier.padding(innerPadding),
+                                viewModel = encounterViewModel,
                                 onGoHome = {
-                                    currentScreen = "home"
+                                    encounterViewModel.goHome()
                                 },
                                 onGoCaughtList = {
-                                    currentScreen = "caughtlist"
+                                    encounterViewModel.goToCaughtList()
                                 }
                             )
                         }

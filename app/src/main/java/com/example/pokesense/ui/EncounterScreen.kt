@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil.compose.AsyncImage                          // Goofy ass Android can't display image from url, so we need this
 import com.example.pokesense.viewmodel.EncounterViewModel
 
 import androidx.compose.runtime.LaunchedEffect          // LaunchedEffect = reacts when catch result changes
@@ -76,7 +76,7 @@ fun EncounterScreen(
             AsyncImage(
                 model = pokemon.sprites.frontDefault,
                 contentDescription = pokemon.name,
-                Modifier.size(200.dp)
+                Modifier.size(300.dp)
                     .padding (30.dp)
             )
         }
