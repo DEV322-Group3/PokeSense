@@ -16,6 +16,7 @@ import com.example.pokesense.data.sensor.PokemonSensorDataSource    // sensor va
 
 // EncounterUiState = all data the EncounterScreen needs
 data class EncounterUiState(
+    val currentScreen: String = "home",                     // currentScreen = screen currently shown
     val isLoading: Boolean = false,                        // isLoading = true while API is working
     val isCatching: Boolean = false,                       // isCatching = true while catch/save is working
     val catchResult: Boolean? = null,                      // catchResult = true caught, false failed, null not decided yet
@@ -38,6 +39,27 @@ class EncounterViewModel(
 
     // _uiState = private state that this ViewModel can change, holds the encounter state various variables
     private val _uiState = MutableStateFlow(EncounterUiState())
+
+    // goHome = changes screen to Home
+    fun goHome() {
+        _uiState.value = _uiState.value.copy(
+            currentScreen = "home"
+        )
+    }
+
+    // goToCaughtList = changes screen to Caught List
+    fun goToCaughtList() {
+        _uiState.value = _uiState.value.copy(
+            currentScreen = "caughtlist"
+        )
+    }
+
+    // goToResult = changes screen to Result
+    fun goToResult() {
+        _uiState.value = _uiState.value.copy(
+            currentScreen = "result"
+        )
+    }
 
     // uiState = public state that the UI can read
     val uiState: StateFlow<EncounterUiState> = _uiState.asStateFlow()
@@ -85,7 +107,10 @@ class EncounterViewModel(
         viewModelScope.launch {
 
             // Show loading first
-            _uiState.value = EncounterUiState(isLoading = true)
+            _uiState.value = EncounterUiState(
+                currentScreen = "encounter",
+                isLoading = true
+            )
 
             try {
                 // Wait so the loading screen is visible
@@ -99,6 +124,7 @@ class EncounterViewModel(
 
                 // Send result to UI
                 _uiState.value = EncounterUiState(
+                    currentScreen = "encounter",
                     isLoading = false,
                     pokemon = result,
                     lightLevel = sensorData.lightLevel,
@@ -109,6 +135,7 @@ class EncounterViewModel(
 
                 // Send error to UI
                 _uiState.value = EncounterUiState(
+                    currentScreen = "encounter",
                     isLoading = false,
                     errorMessage = "Could not load Pokemon"
                 )
