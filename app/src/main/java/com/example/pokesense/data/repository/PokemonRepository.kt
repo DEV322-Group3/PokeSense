@@ -7,4 +7,11 @@ interface PokemonRepository {
 
     // getRandomPokemonByType = promise to get one random Pokemon by type
     suspend fun getRandomPokemonByType(typeName: String): PokemonDetailResponse
+
+    // tryCatchPokemon = tries to catch and save the Pokemon
+    suspend fun tryCatchPokemon(
+        pokemon: PokemonDetailResponse,
+        lightLevel: Float,
+        temperature: Float
+    ): Boolean
 }

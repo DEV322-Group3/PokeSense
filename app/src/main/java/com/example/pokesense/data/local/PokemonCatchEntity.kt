@@ -13,5 +13,5 @@ data class PokemonCatchEntity(
     val type: String,
     val timestampCaught: Long,
     val lightLevel: Float,
-    val motionLevel: Float
+    val temperature: Float
 )
