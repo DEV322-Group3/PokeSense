@@ -98,6 +98,7 @@ class MainActivity : ComponentActivity() {
                         "result" -> {
                             ResultScreen(
                                 modifier = Modifier.padding(innerPadding),
+                                viewModel = encounterViewModel,
                                 onGoHome = {
                                     currentScreen = "home"
                                 },
