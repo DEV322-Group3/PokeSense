@@ -79,6 +79,14 @@ fun EncounterScreen(
                 Modifier.size(300.dp)
                     .padding (30.dp)
             )
+
+            // Display sensor values captured at encounter time
+            Text("Light: ${uiState.lightLevel} lux",
+                fontSize = 16.sp
+            )
+            Text("Temperature: ${uiState.temperature} °C",
+                fontSize = 16.sp
+            )
         }
         else {
             Text("No encounter started",
