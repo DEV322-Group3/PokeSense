@@ -1,4 +1,9 @@
 package com.example.pokesense
+
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,7 +36,24 @@ import androidx.lifecycle.ViewModelProvider                   // ViewModelProvid
 import com.example.pokesense.data.repository.PokemonRepositoryImpl // Real repository worker
 import com.example.pokesense.data.local.AppDatabase              // AppDatabase = Room database setup
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(),  SensorEventListener {
+
+    // sensorManager = system service that provides access to device sensors
+    private lateinit var sensorManager: SensorManager
+
+    // lightSensor = ambient light sensor reference
+    private var lightSensor: Sensor? = null
+
+    // temperatureSensor = ambient temperature sensor reference
+    private var temperatureSensor: Sensor? = null
+
+    // currentLight = latest light sensor reading, default to 0f until first callback
+    private var currentLight: Float = 0f
+
+    // currentTemperature = latest temperature sensor reading, default to 0f until first callback
+    private var currentTemperature: Float = 0f
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -63,6 +85,15 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        // sensorManager = gets the sensor system service
+        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+
+        // lightSensor = gets the ambient light sensor
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
+
+        // temperatureSensor = gets the ambient temperature sensor
+        temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+
         setContent {
             PokeSenseTheme {
 //                // currentScreen = decides which screen is showing    // Dont use this, UI will get destroy on rotate
@@ -86,13 +117,17 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 modifier = Modifier.padding(innerPadding),
                                 onStartEncounter = {
-                                    encounterViewModel.startEncounter()
+                                    encounterViewModel.startEncounter(
+                                        lightLevel = currentLight,
+                                        temperature = currentTemperature
+                                    )
                                 },
                                 onCaughtList = {
                                     encounterViewModel.goToCaughtList()
                                 }
                             )
                         }
+
                         "encounter" -> {
                             EncounterScreen(
                                 modifier = Modifier.padding(innerPadding),
@@ -105,6 +140,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
                         "caughtlist" -> {
                             CaughtListScreen(
                                 modifier = Modifier.padding(innerPadding),
@@ -114,6 +150,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
+
                         "result" -> {
                             ResultScreen(
                                 modifier = Modifier.padding(innerPadding),
@@ -131,6 +168,35 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        // Register light sensor while app is in foreground
+        lightSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+        // Register temperature sensor while app is in foreground
+        temperatureSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Unregister all sensors when app goes to background to preserve battery and resources
+        sensorManager.unregisterListener(this)
+    }
+
+    // called by system when a sensor value changes, store latest reading
+    override fun onSensorChanged(event: SensorEvent) {
+        when (event.sensor.type) {
+            Sensor.TYPE_LIGHT -> currentLight = event.values[0]
+            Sensor.TYPE_AMBIENT_TEMPERATURE -> currentTemperature = event.values[0]
+        }
+    }
+
+    // onAccuracyChanged = required SensorEventListener override
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 }
 
 @Composable

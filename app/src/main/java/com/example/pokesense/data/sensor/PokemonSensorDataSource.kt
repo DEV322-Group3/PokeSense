@@ -14,17 +14,22 @@ data class SensorPokemonData(
 class PokemonSensorDataSource {
 
     // getPokemonSensorData = returns light, temperature, and chosen Pokemon type
-    suspend fun getPokemonSensorData(): SensorPokemonData {
+    suspend fun getPokemonSensorData(lightLevel: Float, temperature: Float): SensorPokemonData {
         return withContext(Dispatchers.Default) {
 
-            // TODO later: replace these test values with real phone sensor values
-            val lightLevel = 600f
-            val temperature = 25f
+
 
             val pokemonType = when {
+                //outside and warm
                 lightLevel >= 500f && temperature >= 20f -> "fire"
+
+                //outside and cold
                 lightLevel >= 500f && temperature < 20f -> "normal"
+
+                //inside and warm
                 lightLevel < 500f && temperature >= 20f -> "ghost"
+
+                //inside and cold
                 else -> "ice"
             }
 

@@ -65,6 +65,7 @@ class EncounterViewModel(
     val uiState: StateFlow<EncounterUiState> = _uiState.asStateFlow()
 
 
+
     // catchPokemon = tries the 40% catch chance and saves to Room when successful
     fun catchPokemon() {
         val pokemon = _uiState.value.pokemon ?: return
@@ -102,14 +103,16 @@ class EncounterViewModel(
 
 
     // startEncounter = starts one Pokemon encounter
-    fun startEncounter() {
+    fun startEncounter(lightLevel: Float, temperature: Float) {
 
         viewModelScope.launch {
 
             // Show loading first
             _uiState.value = EncounterUiState(
                 currentScreen = "encounter",
-                isLoading = true
+                isLoading = true,
+                lightLevel = lightLevel,
+                temperature = temperature
             )
 
             try {
@@ -117,7 +120,10 @@ class EncounterViewModel(
                 delay(3000)
 
                 // sensorData = gets light level, temperature, and the chosen type
-                val sensorData = sensorDataSource.getPokemonSensorData()
+                val sensorData = sensorDataSource.getPokemonSensorData(
+                    lightLevel = lightLevel,
+                    temperature = temperature
+                )
 
                 // result = gets a random Pokemon using the sensor-chosen type
                 val result = repository.getRandomPokemonByType(sensorData.pokemonType)
@@ -127,8 +133,8 @@ class EncounterViewModel(
                     currentScreen = "encounter",
                     isLoading = false,
                     pokemon = result,
-                    lightLevel = sensorData.lightLevel,
-                    temperature = sensorData.temperature
+                    lightLevel = lightLevel,
+                    temperature = temperature
                 )
 
             } catch (e: Exception) {
