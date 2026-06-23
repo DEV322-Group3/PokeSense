@@ -1,6 +1,8 @@
 package com.example.pokesense.data.repository
 
+import com.example.pokesense.data.local.PokemonCatchEntity // Entity = shape of one saved catch in Room
 import com.example.pokesense.data.remote.dto.PokemonDetailResponse // Pokemon detail data shape
+import kotlinx.coroutines.flow.Flow // Flow = stream of caught-list updates over time
 
 // interface (to be expanded on in the impl)
 interface PokemonRepository {
@@ -14,4 +16,7 @@ interface PokemonRepository {
         lightLevel: Float,
         temperature: Float
     ): Boolean
+
+    // getAllCaughtPokemon = promise to stream every saved catch, newest first
+    fun getAllCaughtPokemon(): Flow<List<PokemonCatchEntity>>
 }
