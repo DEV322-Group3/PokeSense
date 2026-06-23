@@ -41,7 +41,7 @@ object PokeApiClient {
 
 // ----- Important note: ------
 // React’s res.json() does the work behind the scenes to turn JSON into a JS object, so JavaScript can read the key-value pairs from the JSON easily.
-// Kotlin is shit... So it needs us to turn the JSON into Kotlin data classes first. Then Kotlin knows where to look for the values, like the Pokemon name or URL.
+// Kotlin is... So it needs us to turn the JSON into Kotlin data classes first. Then Kotlin knows where to look for the values, like the Pokemon name or URL.
 
 // We first use a simple type string, like "fire", to call the type API. Then we use TypeResponse to read the returned JSON and get a Pokemon name.
 // That name becomes a string we use for the second API call to get the specific Pokémon details.
