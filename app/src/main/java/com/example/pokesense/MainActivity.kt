@@ -24,6 +24,7 @@ import com.example.pokesense.ui.CaughtListScreen          // CaughtList screen U
 import com.example.pokesense.ui.ResultScreen                // Result screen after catch
 import com.example.pokesense.ui.theme.PokeSenseTheme
 import com.example.pokesense.viewmodel.EncounterViewModel // Encounter screen logic/state
+import com.example.pokesense.viewmodel.CaughtListViewModel
 
 import androidx.lifecycle.ViewModel                           // ViewModel = base ViewModel type for the factory
 import androidx.lifecycle.ViewModelProvider                   // ViewModelProvider = creates ViewModel with repository
@@ -54,6 +55,14 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        // caughtListViewModelFactory = creates CaughtListViewModel with repository
+        val caughtListViewModelFactory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                @Suppress("UNCHECKED_CAST")
+                return CaughtListViewModel(repository) as T
+            }
+        }
+
         setContent {
             PokeSenseTheme {
 //                // currentScreen = decides which screen is showing    // Dont use this, UI will get destroy on rotate
@@ -62,6 +71,10 @@ class MainActivity : ComponentActivity() {
                 // encounterViewModel = holds encounter state and starts API call
                 val encounterViewModel: EncounterViewModel = viewModel(
                     factory = encounterViewModelFactory
+                )
+
+                val caughtListViewModel: CaughtListViewModel = viewModel(
+                    factory = caughtListViewModelFactory
                 )
 
                 // uiState = screen state from EncounterViewModel
@@ -95,6 +108,7 @@ class MainActivity : ComponentActivity() {
                         "caughtlist" -> {
                             CaughtListScreen(
                                 modifier = Modifier.padding(innerPadding),
+                                viewModel = caughtListViewModel,
                                 onGoHome = {
                                     encounterViewModel.goHome()
                                 }

@@ -6,6 +6,7 @@ import com.example.pokesense.data.remote.PokemonRemoteDataSource
 import com.example.pokesense.data.remote.dto.PokemonDetailResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
 import kotlin.random.Random                                // Random = gives the 40% catch chance
 
 // PokemonRepositoryImpl = real worker that uses RemoteDataSource and Room DAO
@@ -57,5 +58,10 @@ class PokemonRepositoryImpl(
 
             true
         }
+    }
+
+    // getAllCaughtPokemon = just hands back the DAO's flow
+    override fun getAllCaughtPokemon(): Flow<List<PokemonCatchEntity>> {
+        return pokemonCatchDao.getAllCaught()
     }
 }
