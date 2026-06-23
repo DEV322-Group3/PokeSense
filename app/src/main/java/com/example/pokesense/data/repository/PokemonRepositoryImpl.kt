@@ -47,7 +47,7 @@ class PokemonRepositoryImpl(
                 pokedexId = pokemon.id,
                 name = pokemon.name,
                 spriteUrl = pokemon.sprites.frontDefault ?: "",
-                type = pokemon.types.firstOrNull()?.type?.name ?: "unknown",
+                type = pokemon.types.joinToString(" / ") { it.type.name},
                 timestampCaught = System.currentTimeMillis(),
                 lightLevel = lightLevel,
                 temperature = temperature
