@@ -1,12 +1,17 @@
 package com.example.pokesense.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,6 +24,9 @@ import coil.compose.AsyncImage                          // Goofy ass Android can
 import com.example.pokesense.viewmodel.EncounterViewModel
 
 import androidx.compose.runtime.LaunchedEffect          // LaunchedEffect = reacts when catch result changes
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import com.example.pokesense.ui.theme.PressStart
 
 // EncounterScreen = shows loading, error, or Pokemon result
 @Composable
@@ -41,55 +49,69 @@ fun EncounterScreen(
     }
 
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (uiState.isLoading) {
-            Text("Looking for Pokemon...",
+            Text(
+                "Searching...",
                 Modifier.padding(40.dp),
                 fontSize = 25.sp
             )
-        }
-
-        else if (uiState.isCatching) {
+        } else if (uiState.isCatching) {
             Text(
                 "Trying to catch Pokemon...",
                 Modifier.padding(40.dp),
                 fontSize = 25.sp
             )
-        }
-
-        else if (errorMessage != null) {
-            Text(errorMessage,
+        } else if (errorMessage != null) {
+            Text(
+                errorMessage,
                 Modifier.padding(40.dp),
                 fontSize = 25.sp
             )
-        }
-
-        else if (pokemon != null) {
-            Text("A wild ${pokemon.name} appeared!",
+        } else if (pokemon != null) {
+            Text(
+                "A wild ${pokemon.name} appeared!",
                 Modifier.padding(40.dp),
-                fontSize = 25.sp
+                fontSize = 20.sp
             )
 
             AsyncImage(
                 model = pokemon.sprites.frontDefault,
                 contentDescription = pokemon.name,
-                Modifier.size(300.dp)
-                    .padding (30.dp)
+                Modifier
+                    .size(300.dp)
+                    .padding(30.dp)
             )
 
-            // Display sensor values captured at encounter time
-            Text("Light: ${uiState.lightLevel} lux",
-                fontSize = 16.sp
+            //Display encountered pokemon's type(s)
+            Text(
+                text = pokemon.types.joinToString(" / ") { it.type.name },
+                fontSize = 12.sp
             )
-            Text("Temperature: ${uiState.temperature} °C",
-                fontSize = 16.sp
+
+            //Display sensor values captured at encounter time
+            Text(
+                "Light: ${uiState.lightLevel} lux",
+                fontSize = 14.sp,
+                fontFamily = FontFamily.SansSerif,
+                color = Color.LightGray,
+                modifier = Modifier.padding(bottom = 4.dp)
             )
-        }
-        else {
-            Text("No encounter started",
+            Text(
+                "Temperature: ${uiState.temperature} °C",
+                fontSize = 14.sp,
+                fontFamily = FontFamily.SansSerif,
+                color = Color.LightGray,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+        } else {
+            Text(
+                "No encounter started",
                 Modifier.padding(40.dp),
                 fontSize = 22.sp
             )
@@ -97,25 +119,41 @@ fun EncounterScreen(
         Row(
             modifier = modifier.padding(),
             horizontalArrangement = Arrangement.Center
-            ) {
+        ) {
             Button(
                 onClick = {
                     viewModel.catchPokemon()
                 },
+                shape = RoundedCornerShape(6.dp),
+                border = BorderStroke(3.dp, Color(0xFF001F5B)),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF00A86B),
+                    contentColor = Color(0xFF001F5B)
+                ),
                 modifier = Modifier.padding(30.dp),
                 enabled = pokemon != null && !uiState.isCatching
             ) {
                 Text(
                     "Catch",
-                    fontSize = 25.sp
+                    fontFamily = PressStart,
+                    fontSize = 14.sp
                 )
             }
             Button(
                 onClick = onGoHome,
-                Modifier.padding(30.dp)
+                Modifier.padding(30.dp),
+                shape = RoundedCornerShape(6.dp),
+                border = BorderStroke(3.dp, Color.Black),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFCA3433),
+                    contentColor = Color.Black
+                )
             ) {
-                Text("Flee",
-                    fontSize = 25.sp)
+                Text(
+                    "Flee",
+                    fontFamily = PressStart,
+                    fontSize = 14.sp
+                )
             }
         }
     }

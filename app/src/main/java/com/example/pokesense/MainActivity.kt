@@ -155,6 +155,12 @@ class MainActivity : ComponentActivity(),  SensorEventListener {
                             ResultScreen(
                                 modifier = Modifier.padding(innerPadding),
                                 viewModel = encounterViewModel,
+                                onFindAnother = {
+                                    encounterViewModel.startEncounter(
+                                        lightLevel = currentLight,
+                                        temperature = currentTemperature
+                                    )
+                                },
                                 onGoHome = {
                                     encounterViewModel.goHome()
                                 },
