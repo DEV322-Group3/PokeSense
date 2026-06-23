@@ -27,9 +27,10 @@ fun ResultScreen(
     modifier: Modifier = Modifier,
     viewModel: EncounterViewModel,
     onGoHome: () -> Unit,
-    onGoCaughtList: () -> Unit
+    onGoCaughtList: () -> Unit,
+    onFindAnother: () -> Unit
 ) {
-    // uiState = gets catch result and Pokemon from ViewModel
+    // uiState = gets catch result and Pokémon from ViewModel
     val uiState by viewModel.uiState.collectAsState()
 
     val pokemon = uiState.pokemon
@@ -67,11 +68,11 @@ fun ResultScreen(
             )
         }
 
-        Row(
-            horizontalArrangement = Arrangement.Center
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = onGoHome,
+                onClick = onFindAnother,
                 modifier = Modifier.padding(10.dp),
                 shape = RoundedCornerShape(6.dp),
                 border = BorderStroke(3.dp, Color(0xFF001F5B)),
@@ -81,7 +82,7 @@ fun ResultScreen(
                 )
             ) {
                 Text(
-                    text = "Return Home",
+                    text = "Find Another Pokémon",
                     fontFamily = PressStart,
                     fontSize = 10.sp
                 )
@@ -103,6 +104,24 @@ fun ResultScreen(
                     fontSize = 10.sp
                 )
             }
+
+            Button(
+                onClick = onGoHome,
+                modifier = Modifier.padding(10.dp),
+                shape = RoundedCornerShape(6.dp),
+                border = BorderStroke(3.dp, Color(0xFF001F5B)),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color(0xFF001F5B)
+                )
+            ) {
+                Text(
+                    text = "Return Home",
+                    fontFamily = PressStart,
+                    fontSize = 10.sp
+                )
+            }
+
         }
     }
 }
