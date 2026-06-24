@@ -150,6 +150,11 @@ fun PokemonDetailDialog(
                         modifier = Modifier.padding(top = 8.dp)
                     )
                     Text(
+                        text = pokemon.type,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(top = 2.dp)
+                    )
+                    Text(
                         text = "CAUGHT: $formattedDate",
                         fontSize = 12.sp,
                         modifier = Modifier.padding(top = 4.dp)
